@@ -1,0 +1,97 @@
+body
+{
+	background-color: green;
+}
+
+h1
+{
+	color: blue;
+}
+
+.playerTag
+{
+	position: absolute;
+	bottom: 5px;
+	left: 45%;
+	margin: 0px auto;
+	display: inline-block;
+	font-size: 14pt;
+	color: black;
+}
+
+.bankTag
+{
+	position: absolute;
+	bottom: 5px;
+	left: 55%;
+	margin: 0px auto;
+	display: inline-block;
+	font-size: 14pt;
+	color: black;
+}
+
+#playArea
+{
+	width: 100%;
+	margin: 0px;
+	padding: 10px;
+	background-color: green;
+}
+
+#computerArea
+{
+	width: 95%;
+	position: absolute;
+	top: 25%;
+	left:25%;
+	margin: 0px auto;
+	clear: both;
+}
+
+#playerArea
+{
+	width: 95%;
+	position: absolute;
+	bottom: 25%;
+	left: 25%;
+	margin: 0px auto;
+	clear: both;
+}
+
+#controls
+{
+	position: absolute;
+	bottom: 50px;
+	left: 42%;
+	margin: 0px auto;
+
+}
+
+.controls
+{
+	font-size: 18pt;
+	background-color: black;
+	color: white;
+	border: 1px solid white;
+	border-radius: 5px;
+	padding: 5px;
+}
+
+.controls:hover
+{
+	border: 3px solid white;
+}
+
+.betBox
+{
+	min-width: 50px;
+	width: 75px;
+	text-align: right;
+}
+
+.cardArea
+{
+	width: auto;
+	float:left;
+	margin: 0px 5px;
+}

@@ -1,0 +1,60 @@
+<!doctype html>
+	<html>
+		<head>
+			<title>Blackjack</title>
+			<link rel="stylesheet" href="blackjack.css">
+			<script src="blackjack.js"></script>
+		</head>
+		<body>
+			<h1 id="test">Blackjack time</h1>
+			<button onclick="startGame()">Start Game</button>
+			<div id="playArea">
+				<div id="computerArea">
+					<div class="cardArea">
+						<img id="compCard1"/>
+					</div>
+					<div class="cardArea">
+						<img id="compCard2"/>
+					</div>
+					<div class="cardArea">
+						<img id="compCard3"/>
+					</div>
+					<div class="cardArea">
+						<img id="compCard4"/>
+					</div>
+					<div class="cardArea">
+						<img id="compCard5"/>
+					</div>
+				</div>
+
+
+				
+				<div id="playerArea">
+					<div class="cardArea">
+						<img id="pCard1"/>
+					</div>
+					<div class="cardArea">
+						<img id="pCard2"/>
+					</div>
+					<div class="cardArea">
+						<img id="pCard3"/>
+					</div>
+					<div class="cardArea">
+						<img id="pCard4"/>
+					</div>
+					<div class="cardArea">
+						<img id="pCard5"/>
+					</div>
+				</div>
+				<div id="controls">
+					<button id="hit" class="controls" onclick="dealCard('p')">Hit</button>
+					<button id="stay" class="controls">Stay</button>
+					<button id="bet" class="controls">Bet</button>
+					<input type="text" id="betAmount" class="controls betBox">
+				</div>
+			
+				<h2 class="playerTag" id="playerName">Player Name</h2>
+				<h2 class="bankTag" id="playerBank">$1000</h2>
+			</div>
+		</body>
+	</html>
