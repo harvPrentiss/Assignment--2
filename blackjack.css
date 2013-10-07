@@ -48,6 +48,23 @@ h1
 	clear: both;
 }
 
+#messageArea
+{
+	width: 95%;
+	position: absolute;
+	top: 45%;
+	left: 0;
+	margin: 0px auto;
+	clear: both;
+}
+
+#messageText
+{
+	font-size: 16pt;
+	color: black;
+	text-align: center;
+}
+
 #playerArea
 {
 	width: 95%;
@@ -64,7 +81,7 @@ h1
 	bottom: 50px;
 	left: 42%;
 	margin: 0px auto;
-
+	visibility: hidden;
 }
 
 .controls

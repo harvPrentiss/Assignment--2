@@ -1,8 +1,9 @@
-var player_Money = 1000;
+var playerMoney = 1000;
 var cardDeck = new Array();
 var deckPos = 0;
 var playerCards = new Array();
 var compCards = new Array();
+var playerBet = 0;
 
 function playingCard(value, faceValue, suit){
 	this.value = value;
@@ -109,13 +110,8 @@ function startGame(){
 		cardDeck[i] = new playingCard();
 	}
 	initializeDeck();
-	shuffle();
-	clearCards();
-	deckPos = 0;
-	dealCard("p");
-	dealCard("c");
-	dealCard("p");
-	dealCard("c");
+	dealHand();
+	document.getElementById("controls").style.visibility = "visible";
 }
 
 function drawBoard(){
@@ -132,6 +128,18 @@ function drawBoard(){
 			document.getElementById('compCard' + (i+1)).src = "images/cards/" + compCards[i].faceValue + compCards[i].suit +".png";
 		}
 	}
+}
+
+function dealHand(){
+	shuffle();
+	clearCards();
+	deckPos = 0;
+	dealCard("p");
+	dealCard("c");
+	dealCard("p");
+	dealCard("c");
+	document.getElementById("betAmount").value = "0";
+	document.getElementById("messageText").innerHTML = "Place your bet!";
 }
 
 function dealCard(target){
@@ -168,6 +176,65 @@ function clearCards(){
 		index++;
 	}
 }
+
+function playerHit(){
+	if(playerBet == 0)
+	{
+		alert("Your bet cannot be 0!");
+	}
+	else
+	{
+		dealCard("p");
+		checkHand();
+	}
+}
+
+function playerStay(){
+	if(playerBet == 0)
+	{
+		alert("Your bet cannot be 0!");
+	}
+	else
+	{
+		computerTurn();
+	}
+}
+
+function placeBet(){
+	var betToBePlaced = parseInt(document.getElementById("betAmount").value);
+	playerBet = 0;
+
+	if(betToBePlaced > playerMoney)
+	{
+		alert("Your bet is too high!");
+	}
+	else
+	{
+		playerBet = betToBePlaced;
+		document.getElementById("messageText").innerHTML = "The player bets " + playerBet;
+	}
+}
+
+function checkHand(){
+	var total = 0;
+
+	for(var i = 0; i < playerCards.length; i++)
+	{
+		total += playerCards[i].value;
+	}
+
+	if(total > 21)
+	{
+		alert("You busted with " + total);
+		playerMoney -= playerBet;
+		playerBet = 0;
+		dealHand();
+	}
+	else
+	{
+		document.getElementById("messageText").innerHTML = "Player has " + total;
+	}
+} 
 
 window.onload = function(){
 	var name = prompt("Please enter your name.", "player");

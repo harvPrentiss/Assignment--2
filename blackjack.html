@@ -27,7 +27,9 @@
 					</div>
 				</div>
 
-
+				<div id="messageArea">
+					<h4 id="messageText"></h4>
+				</div>
 				
 				<div id="playerArea">
 					<div class="cardArea">
@@ -47,10 +49,10 @@
 					</div>
 				</div>
 				<div id="controls">
-					<button id="hit" class="controls" onclick="dealCard('p')">Hit</button>
-					<button id="stay" class="controls">Stay</button>
-					<button id="bet" class="controls">Bet</button>
-					<input type="text" id="betAmount" class="controls betBox">
+					<button id="hit" class="controls" onclick="playerHit();">Hit</button>
+					<button id="stay" class="controls" onclick="playerStay();">Stay</button>
+					<button id="bet" class="controls" onclick="placeBet();">Bet</button>
+					<input type="text" id="betAmount" class="controls betBox" value="0">
 				</div>
 			
 				<h2 class="playerTag" id="playerName">Player Name</h2>
