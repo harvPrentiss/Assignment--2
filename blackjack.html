@@ -6,8 +6,8 @@
 			<script src="blackjack.js"></script>
 		</head>
 		<body>
-			<h1 id="test">Blackjack time</h1>
-			<button onclick="startGame()">Start Game</button>
+			<h1 class="banner"></h1>
+			<button id="start" class="controls" onclick="startGame()">Start Game</button>
 			<div id="playArea">
 				<div id="computerArea">
 					<div class="cardArea">
@@ -53,6 +53,9 @@
 					<button id="stay" class="controls" onclick="playerStay();">Stay</button>
 					<button id="bet" class="controls" onclick="placeBet();">Bet</button>
 					<input type="text" id="betAmount" class="controls betBox" value="0">
+				</div>
+				<div id="dealBtn">
+					<button id="deal" class="controls" onclick="dealHand();">Deal</button>
 				</div>
 			
 				<h2 class="playerTag" id="playerName">Player Name</h2>

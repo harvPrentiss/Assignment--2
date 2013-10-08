@@ -1,17 +1,18 @@
 body
 {
-	background-color: green;
+	background-color: #076324;
+	overflow-x: hidden;
 }
 
-h1
+.banner
 {
-	color: blue;
+	
 }
 
 .playerTag
 {
 	position: absolute;
-	bottom: 5px;
+	bottom: 10px;
 	left: 45%;
 	margin: 0px auto;
 	display: inline-block;
@@ -22,7 +23,7 @@ h1
 .bankTag
 {
 	position: absolute;
-	bottom: 5px;
+	bottom: 10px;
 	left: 55%;
 	margin: 0px auto;
 	display: inline-block;
@@ -35,14 +36,13 @@ h1
 	width: 100%;
 	margin: 0px;
 	padding: 10px;
-	background-color: green;
 }
 
 #computerArea
 {
 	width: 95%;
 	position: absolute;
-	top: 25%;
+	top: 10%;
 	left:25%;
 	margin: 0px auto;
 	clear: both;
@@ -69,13 +69,22 @@ h1
 {
 	width: 95%;
 	position: absolute;
-	bottom: 25%;
+	bottom: 35%;
 	left: 25%;
 	margin: 0px auto;
 	clear: both;
 }
 
 #controls
+{
+	position: absolute;
+	bottom: 50px;
+	left: 42%;
+	margin: 0px auto;
+	visibility: hidden;
+}
+
+#dealBtn
 {
 	position: absolute;
 	bottom: 50px;

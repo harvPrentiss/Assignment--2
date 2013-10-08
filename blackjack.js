@@ -4,6 +4,7 @@ var deckPos = 0;
 var playerCards = new Array();
 var compCards = new Array();
 var playerBet = 0;
+var pName = "player";
 
 function playingCard(value, faceValue, suit){
 	this.value = value;
@@ -112,6 +113,7 @@ function startGame(){
 	initializeDeck();
 	dealHand();
 	document.getElementById("controls").style.visibility = "visible";
+	document.getElementById("start").style.visibility = "hidden";
 }
 
 function drawBoard(){
@@ -140,6 +142,8 @@ function dealHand(){
 	dealCard("c");
 	document.getElementById("betAmount").value = "0";
 	document.getElementById("messageText").innerHTML = "Place your bet!";
+	document.getElementById("controls").style.visibility = "visible";
+	document.getElementById("dealBtn").style.visibility = "hidden";
 }
 
 function dealCard(target){
@@ -160,7 +164,6 @@ function dealCard(target){
 }
 
 function clearCards(){
-	// Need to set all the img tags to a blank img
 	var index = 0;
 	while(playerCards.length > 0)
 	{
@@ -206,12 +209,12 @@ function placeBet(){
 
 	if(betToBePlaced > playerMoney)
 	{
-		alert("Your bet is too high!");
+		document.getElementById("messageText").innerHTML += "<br> You don't have that much to bet!";
 	}
 	else
 	{
 		playerBet = betToBePlaced;
-		document.getElementById("messageText").innerHTML = "The player bets " + playerBet;
+		document.getElementById("messageText").innerHTML = pName + " bets " + playerBet;
 	}
 }
 
@@ -225,14 +228,25 @@ function checkHand(){
 
 	if(total > 21)
 	{
-		alert("You busted with " + total);
+		document.getElementById("messageText").innerHTML = pName + " busted with " + total;
 		playerMoney -= playerBet;
-		playerBet = 0;
-		dealHand();
+		if(playerMoney > 0){
+			document.getElementById("playerBank").innerHTML = "$"+ playerMoney;
+			playerBet = 0;
+			document.getElementById("controls").style.visibility = "hidden";
+			document.getElementById("dealBtn").style.visibility = "visible";
+		}
+		else
+		{
+			clearCards();
+			document.getElementById("controls").style.visibility = "hidden";
+			document.getElementById("playerBank").innerHTML = "$"+ playerMoney;
+			document.getElementById("messageText").innerHTML = "You lost all your money. Better think of a good excuse.";
+		}
 	}
 	else
 	{
-		document.getElementById("messageText").innerHTML = "Player has " + total;
+		document.getElementById("messageText").innerHTML = pName + " has " + total + ".<br> Dealer is showing " + compCards[1].value;
 	}
 } 
 
@@ -240,4 +254,5 @@ window.onload = function(){
 	var name = prompt("Please enter your name.", "player");
 	var tag = document.getElementById('playerName');
 	tag.innerHTML = name;
+	pName = name;
 }
