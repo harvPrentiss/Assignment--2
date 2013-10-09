@@ -116,7 +116,7 @@ function startGame(){
 	document.getElementById("start").style.visibility = "hidden";
 }
 
-function drawBoard(){
+function drawBoard(dealerDraw){
 	for(var i = 0; i < playerCards.length; i++)
 	{
 		if(playerCards[i] != null){
@@ -125,9 +125,16 @@ function drawBoard(){
 	}
 
 	for(i = 0; i < compCards.length; i++)
-	{
-		if(compCards[i] != null){
-			document.getElementById('compCard' + (i+1)).src = "images/cards/" + compCards[i].faceValue + compCards[i].suit +".png";
+	{	
+		if(i == 0 && !dealerDraw)
+		{
+			document.getElementById('compCard' + (i + 1)).src = "images/cards/cardBack.png";
+		}
+		else
+		{
+			if(compCards[i] != null){
+				document.getElementById('compCard' + (i+1)).src = "images/cards/" + compCards[i].faceValue + compCards[i].suit +".png";
+			}
 		}
 	}
 }
@@ -136,17 +143,17 @@ function dealHand(){
 	shuffle();
 	clearCards();
 	deckPos = 0;
-	dealCard("p");
-	dealCard("c");
-	dealCard("p");
-	dealCard("c");
+	dealCard("p",false);
+	dealCard("c", false);
+	dealCard("p", false);
+	dealCard("c", false);
 	document.getElementById("betAmount").value = "0";
 	document.getElementById("messageText").innerHTML = "Place your bet!";
 	document.getElementById("controls").style.visibility = "visible";
 	document.getElementById("dealBtn").style.visibility = "hidden";
 }
 
-function dealCard(target){
+function dealCard(target, dealerTurn){
 	if(target == "p")
 	{
 		if(playerCards.length < 5){
@@ -160,7 +167,7 @@ function dealCard(target){
 		}
 	}
 	deckPos++;
-	drawBoard();
+	drawBoard(dealerTurn);
 }
 
 function clearCards(){
@@ -187,7 +194,7 @@ function playerHit(){
 	}
 	else
 	{
-		dealCard("p");
+		dealCard("p", false);
 		checkHand();
 	}
 }
@@ -200,6 +207,73 @@ function playerStay(){
 	else
 	{
 		computerTurn();
+	}
+}
+
+function computerTurn(){
+	drawBoard();
+	var compTotal  = compCards[0].value + compCards[1].value;
+	if(compTotal == 21)
+	{
+		playerMoney -= playerBet;
+		document.getElementById("messageText").innerHTML = "The Dealer has hit 21. You lose.";
+		if(playerMoney > 0){
+			document.getElementById("playerBank").innerHTML = "$"+ playerMoney;
+			playerBet = 0;
+			document.getElementById("controls").style.visibility = "hidden";
+			document.getElementById("dealBtn").style.visibility = "visible";
+		}
+		else
+		{
+			clearCards();
+			document.getElementById("controls").style.visibility = "hidden";
+			document.getElementById("playerBank").innerHTML = "$"+ playerMoney;
+			document.getElementById("messageText").innerHTML = "You lost all your money. Better think of a good excuse.";
+		}
+	}
+	else
+	{
+		var playerTotal = 0;
+		for(var i = 0; i < playerCards.length; i++)
+		{
+			playerTotal += playerCards[i].value;
+		}
+		while(compTotal < playerTotal && compTotal <= 21)
+		{
+			dealCard("c", true);
+			compTotal = 0;
+			for(var j =0; j<compCards.length; j++)
+			{
+				compTotal += compCards[j].value;
+			}
+		}
+		if(compTotal > 21)
+		{
+			playerMoney += playerBet;
+			document.getElementById("messageText").innerHTML = "The Dealer has busted. You won!";
+			document.getElementById("playerBank").innerHTML = "$"+ playerMoney;
+			playerBet = 0;
+			document.getElementById("controls").style.visibility = "hidden";
+			document.getElementById("dealBtn").style.visibility = "visible";
+		}
+		else
+		{
+			playerMoney -= playerBet;
+			document.getElementById("messageText").innerHTML = "The Dealer has defeated you with " + compTotal;
+			if(playerMoney > 0){
+			document.getElementById("playerBank").innerHTML = "$"+ playerMoney;
+			playerBet = 0;
+			document.getElementById("controls").style.visibility = "hidden";
+			document.getElementById("dealBtn").style.visibility = "visible";
+			}
+			else
+			{
+				clearCards();
+				document.getElementById("controls").style.visibility = "hidden";
+				document.getElementById("playerBank").innerHTML = "$"+ playerMoney;
+				document.getElementById("messageText").innerHTML = "You lost all your money. Better think of a good excuse.";
+			}
+		}
 	}
 }
 

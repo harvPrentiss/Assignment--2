@@ -42,7 +42,7 @@ body
 {
 	width: 95%;
 	position: absolute;
-	top: 10%;
+	top: 20%;
 	left:25%;
 	margin: 0px auto;
 	clear: both;
@@ -52,7 +52,7 @@ body
 {
 	width: 95%;
 	position: absolute;
-	top: 45%;
+	top: 35%;
 	left: 0;
 	margin: 0px auto;
 	clear: both;
@@ -69,7 +69,7 @@ body
 {
 	width: 95%;
 	position: absolute;
-	bottom: 35%;
+	bottom: 20%;
 	left: 25%;
 	margin: 0px auto;
 	clear: both;
