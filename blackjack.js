@@ -1,3 +1,9 @@
+/*    
+	Name: Harold Prentiss	  
+ 	Course:	443
+ 	Assignment: #1
+*/
+
 var playerMoney = 1000;
 var cardDeck = new Array();
 var deckPos = 0;
@@ -111,7 +117,8 @@ function startGame(){
 		cardDeck[i] = new playingCard();
 	}
 	initializeDeck();
-	dealHand();
+	document.getElementById("betAmount").value = "0";
+	document.getElementById("messageText").innerHTML = "Place your bet!";
 	document.getElementById("controls").style.visibility = "visible";
 	document.getElementById("start").style.visibility = "hidden";
 }
@@ -147,10 +154,6 @@ function dealHand(){
 	dealCard("c", false);
 	dealCard("p", false);
 	dealCard("c", false);
-	document.getElementById("betAmount").value = "0";
-	document.getElementById("messageText").innerHTML = "Place your bet!";
-	document.getElementById("controls").style.visibility = "visible";
-	document.getElementById("dealBtn").style.visibility = "hidden";
 }
 
 function dealCard(target, dealerTurn){
@@ -190,7 +193,7 @@ function clearCards(){
 function playerHit(){
 	if(playerBet == 0)
 	{
-		alert("Your bet cannot be 0!");
+		document.getElementById("messageText").innerHTML = "Your bet cannot be 0!";
 	}
 	else
 	{
@@ -202,7 +205,7 @@ function playerHit(){
 function playerStay(){
 	if(playerBet == 0)
 	{
-		alert("Your bet cannot be 0!");
+		document.getElementById("messageText").innerHTML = "Your bet cannot be 0!";
 	}
 	else
 	{
@@ -211,7 +214,7 @@ function playerStay(){
 }
 
 function computerTurn(){
-	drawBoard();
+	drawBoard(true);
 	var compTotal  = compCards[0].value + compCards[1].value;
 	if(compTotal == 21)
 	{
@@ -220,8 +223,7 @@ function computerTurn(){
 		if(playerMoney > 0){
 			document.getElementById("playerBank").innerHTML = "$"+ playerMoney;
 			playerBet = 0;
-			document.getElementById("controls").style.visibility = "hidden";
-			document.getElementById("dealBtn").style.visibility = "visible";
+			document.getElementById("messageText").innerHTML += "<br>Place your next bet.";
 		}
 		else
 		{
@@ -253,18 +255,16 @@ function computerTurn(){
 			document.getElementById("messageText").innerHTML = "The Dealer has busted. You won!";
 			document.getElementById("playerBank").innerHTML = "$"+ playerMoney;
 			playerBet = 0;
-			document.getElementById("controls").style.visibility = "hidden";
-			document.getElementById("dealBtn").style.visibility = "visible";
+			document.getElementById("messageText").innerHTML += "<br>Place your next bet.";
 		}
 		else
 		{
 			playerMoney -= playerBet;
 			document.getElementById("messageText").innerHTML = "The Dealer has defeated you with " + compTotal;
 			if(playerMoney > 0){
-			document.getElementById("playerBank").innerHTML = "$"+ playerMoney;
-			playerBet = 0;
-			document.getElementById("controls").style.visibility = "hidden";
-			document.getElementById("dealBtn").style.visibility = "visible";
+				document.getElementById("playerBank").innerHTML = "$"+ playerMoney;
+				playerBet = 0;
+				document.getElementById("messageText").innerHTML += "<br>Place your next bet.";
 			}
 			else
 			{
@@ -285,10 +285,15 @@ function placeBet(){
 	{
 		document.getElementById("messageText").innerHTML += "<br> You don't have that much to bet!";
 	}
+	else if(betToBePlaced == 0)
+	{
+		document.getElementById("messageText").innerHTML = "Your bet cannot be 0!";
+	}
 	else
 	{
 		playerBet = betToBePlaced;
 		document.getElementById("messageText").innerHTML = pName + " bets " + playerBet;
+		dealHand();
 	}
 }
 
@@ -307,8 +312,7 @@ function checkHand(){
 		if(playerMoney > 0){
 			document.getElementById("playerBank").innerHTML = "$"+ playerMoney;
 			playerBet = 0;
-			document.getElementById("controls").style.visibility = "hidden";
-			document.getElementById("dealBtn").style.visibility = "visible";
+			document.getElementById("messageText").innerHTML += "<br>Place your next bet.";
 		}
 		else
 		{
