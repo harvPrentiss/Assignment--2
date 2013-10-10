@@ -43,7 +43,11 @@ function initializeDeck(){
 	var index = 0;
 	var setSuit = 'C';
 	for(var i = 1; i<14; i++){
-		if(i >= 10){
+		if(i == 1)
+		{
+			cardDeck[index].value = 11;
+		}
+		else if(i >= 10){
 			cardDeck[index].value = 10; 
 		}
 		else
@@ -58,7 +62,11 @@ function initializeDeck(){
 
 	setSuit = 'D';
 	for(i = 1; i<14; i++){
-		if(i >= 10){
+		if(i == 1)
+		{
+			cardDeck[index].value = 11;
+		}
+		else if(i >= 10){
 			cardDeck[index].value = 10; 
 		}
 		else
@@ -72,7 +80,11 @@ function initializeDeck(){
 
 	setSuit = 'H';
 	for(i = 1; i<14; i++){
-		if(i >= 10){
+		if(i == 1)
+		{
+			cardDeck[index].value = 11;
+		}
+		else if(i >= 10){
 			cardDeck[index].value = 10; 
 		}
 		else
@@ -86,7 +98,11 @@ function initializeDeck(){
 
 	setSuit = 'S';
 	for(i = 1; i<14; i++){
-		if(i >= 10){
+		if(i == 1)
+		{
+			cardDeck[index].value = 11;
+		}
+		else if(i >= 10){
 			cardDeck[index].value = 10; 
 		}
 		else
@@ -154,6 +170,24 @@ function dealHand(){
 	dealCard("c", false);
 	dealCard("p", false);
 	dealCard("c", false);
+	if(compCards[0].value + compCards[1].value == 21)
+	{
+		drawBoard(true);
+		playerMoney -= playerBet;
+		document.getElementById("messageText").innerHTML = "The Dealer has hit 21. You lose.";
+		if(playerMoney > 0){
+			document.getElementById("playerBank").innerHTML = "$"+ playerMoney;
+			playerBet = 0;
+			document.getElementById("messageText").innerHTML += "<br>Place your next bet.";
+		}
+		else
+		{
+			clearCards();
+			document.getElementById("controls").style.visibility = "hidden";
+			document.getElementById("playerBank").innerHTML = "$"+ playerMoney;
+			document.getElementById("messageText").innerHTML = "You lost all your money. Better think of a good excuse.";
+		}
+	}
 }
 
 function dealCard(target, dealerTurn){
@@ -235,44 +269,73 @@ function computerTurn(){
 	}
 	else
 	{
-		var playerTotal = 0;
-		for(var i = 0; i < playerCards.length; i++)
-		{
-			playerTotal += playerCards[i].value;
-		}
+		var playerTotal = getPlayerTotal();
+		
 		while(compTotal < playerTotal && compTotal <= 21)
 		{
 			dealCard("c", true);
-			compTotal = 0;
-			for(var j =0; j<compCards.length; j++)
-			{
-				compTotal += compCards[j].value;
-			}
+			compTotal = getCompTotal();
 		}
+
 		if(compTotal > 21)
 		{
-			playerMoney += playerBet;
-			document.getElementById("messageText").innerHTML = "The Dealer has busted. You won!";
-			document.getElementById("playerBank").innerHTML = "$"+ playerMoney;
-			playerBet = 0;
-			document.getElementById("messageText").innerHTML += "<br>Place your next bet.";
-		}
-		else
-		{
-			playerMoney -= playerBet;
-			document.getElementById("messageText").innerHTML = "The Dealer has defeated you with " + compTotal;
-			if(playerMoney > 0){
+			for(var k = 0; k < compCards.length; k++)
+				{
+					if(compCards[k].faceValue == "A")
+					{
+						compCards[k].value = 1;
+					}
+				}
+			compTotal = getCompTotal();
+
+			while(compTotal < playerTotal && compTotal <= 21)
+			{
+				dealCard("c", true);
+				compTotal = getCompTotal();
+			}
+
+			if(compTotal > 21)
+			{
+				playerMoney += playerBet;
+				document.getElementById("messageText").innerHTML = "The Dealer has busted at " + compTotal + ". You won!";
 				document.getElementById("playerBank").innerHTML = "$"+ playerMoney;
 				playerBet = 0;
 				document.getElementById("messageText").innerHTML += "<br>Place your next bet.";
 			}
 			else
 			{
-				clearCards();
-				document.getElementById("controls").style.visibility = "hidden";
-				document.getElementById("playerBank").innerHTML = "$"+ playerMoney;
-				document.getElementById("messageText").innerHTML = "You lost all your money. Better think of a good excuse.";
+				playerMoney -= playerBet;
+				document.getElementById("messageText").innerHTML = "The Dealer has defeated your " + playerTotal+ " with " + compTotal;
+				if(playerMoney > 0){
+					document.getElementById("playerBank").innerHTML = "$"+ playerMoney;
+					playerBet = 0;
+					document.getElementById("messageText").innerHTML += "<br>Place your next bet.";
+				}
+				else
+				{
+					clearCards();
+					document.getElementById("controls").style.visibility = "hidden";
+					document.getElementById("playerBank").innerHTML = "$"+ playerMoney;
+					document.getElementById("messageText").innerHTML = "You lost all your money. Better think of a good excuse.";
+				}
 			}
+		}
+		else
+		{
+				playerMoney -= playerBet;
+				document.getElementById("messageText").innerHTML = "The Dealer has defeated your " + playerTotal+ " with " + compTotal;
+				if(playerMoney > 0){
+					document.getElementById("playerBank").innerHTML = "$"+ playerMoney;
+					playerBet = 0;
+					document.getElementById("messageText").innerHTML += "<br>Place your next bet.";
+				}
+				else
+				{
+					clearCards();
+					document.getElementById("controls").style.visibility = "hidden";
+					document.getElementById("playerBank").innerHTML = "$"+ playerMoney;
+					document.getElementById("messageText").innerHTML = "You lost all your money. Better think of a good excuse.";
+				}	
 		}
 	}
 }
@@ -298,6 +361,71 @@ function placeBet(){
 }
 
 function checkHand(){
+	var fullHand = true;
+	var index = 0;
+	while(index < playerCards.length && fullHand)
+	{
+		if(playerCards[index] == null)
+		{
+			fullHand = false;
+		}
+		index++;
+	}
+	if(fullHand && playerCards.length == 5)
+	{
+		playerMoney += playerBet;
+		document.getElementById("messageText").innerHTML = "You got 5 cards without busting! You win!";
+		document.getElementById("playerBank").innerHTML = "$"+ playerMoney;
+		playerBet = 0;
+		document.getElementById("messageText").innerHTML += "<br>Place your next bet.";
+	}
+	else
+	{
+		var total = getPlayerTotal();
+		var changed = false;
+
+		if(total > 21)
+		{
+			for(var j = 0; j < playerCards.length; j++)
+			{
+				if(playerCards[j].faceValue == "A" && playerCards[j].value != 1)
+				{
+					console.log("Changing the Ace of " + playerCards[j].suit + " from 11 to 1. Total is " + total);
+					playerCards[j].value = 1;
+					changed = true;
+				}
+			}
+			if(!changed)
+			{
+				document.getElementById("messageText").innerHTML = pName + " busted with " + total;
+				playerMoney -= playerBet;
+				if(playerMoney > 0){
+					document.getElementById("playerBank").innerHTML = "$"+ playerMoney;
+					playerBet = 0;
+					document.getElementById("messageText").innerHTML += "<br>Place your next bet.";
+				}
+				else
+				{
+					clearCards();
+					document.getElementById("controls").style.visibility = "hidden";
+					document.getElementById("playerBank").innerHTML = "$"+ playerMoney;
+					document.getElementById("messageText").innerHTML = "You lost all your money. Better think of a good excuse.";
+				}
+			}
+			else
+			{
+				total = getPlayerTotal();
+				document.getElementById("messageText").innerHTML = pName + " has " + total + ".<br> Dealer is showing " + compCards[1].value;
+			}
+		}
+		else
+		{
+			document.getElementById("messageText").innerHTML = pName + " has " + total + ".<br> Dealer is showing " + compCards[1].value;
+		}
+	}
+} 
+
+function getPlayerTotal(){
 	var total = 0;
 
 	for(var i = 0; i < playerCards.length; i++)
@@ -305,28 +433,19 @@ function checkHand(){
 		total += playerCards[i].value;
 	}
 
-	if(total > 21)
+	return total;
+}
+
+function getCompTotal(){
+	var total = 0;
+
+	for(var i = 0; i < compCards.length; i++)
 	{
-		document.getElementById("messageText").innerHTML = pName + " busted with " + total;
-		playerMoney -= playerBet;
-		if(playerMoney > 0){
-			document.getElementById("playerBank").innerHTML = "$"+ playerMoney;
-			playerBet = 0;
-			document.getElementById("messageText").innerHTML += "<br>Place your next bet.";
-		}
-		else
-		{
-			clearCards();
-			document.getElementById("controls").style.visibility = "hidden";
-			document.getElementById("playerBank").innerHTML = "$"+ playerMoney;
-			document.getElementById("messageText").innerHTML = "You lost all your money. Better think of a good excuse.";
-		}
+		total += compCards[i].value;
 	}
-	else
-	{
-		document.getElementById("messageText").innerHTML = pName + " has " + total + ".<br> Dealer is showing " + compCards[1].value;
-	}
-} 
+
+	return total;
+}
 
 window.onload = function(){
 	var name = prompt("Please enter your name.", "player");
